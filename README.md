@@ -7,6 +7,37 @@ service for Croatian public legal documents. It **does not** yet scrape official
 portals, prove document authenticity, track amendments, interpret legislation,
 perform OCR, or give legal advice.
 
+## Lighthouse AI interactive demonstration
+
+The **Lighthouse AI evidence cockpit** is an interactive browser interface on top of
+the real FastAPI/PyMuPDF indexing endpoints. It demonstrates document ingestion,
+article/page provenance, source fingerprinting, source-cited retrieval and refusal
+when the indexed text does not support a query.
+
+Run the service and open **http://localhost:8000/**:
+
+```bash
+python -m pip install -e '.[test]'
+python -m pytest -q
+uvicorn borderless_os.api:app --reload
+```
+
+Click **Try fictional sample** to generate and ingest a **synthetic** PDF with
+two sample articles, automatically query the source, and display a passage and
+its audit metadata. Enter "volcanic submarine passage" in the search box to see
+the explicit `not_verified` refusal. You can also upload your own text-based PDF
+containing `Clanak N.` / `Članak N.` headings.
+
+**Data & safety caveats:** the sample is entirely fictional; it establishes
+neither real Croatian immigration obligations nor deadlines. The interface is
+not an autonomous legal agent. The ingestion API accepts user-supplied source
+URLs without verifying them. The evidence index is in-memory and process-global,
+with **no authentication or tenant isolation**: do **not** expose the service
+publicly or upload real personal/sensitive documents. Local demo use only.
+
+**Current status:** functional evidence retrieval prototype; *not* legal advice,
+not production-ready, and not a complete permit application workflow.
+
 ## Implemented
 
 - FastAPI endpoints: `GET /health`, `POST /ingest/pdf`, `POST /search`.
