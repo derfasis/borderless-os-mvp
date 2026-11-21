@@ -5,10 +5,12 @@ from __future__ import annotations
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
+from .showcase import router as showcase_router
 from .index import EvidenceIndex
 from .ingest import extract_articles, pdf_to_pages, sha256
 
 app = FastAPI(title="BORDERLESS OS – evidence-first MVP", version="0.1.0")
+app.include_router(showcase_router)
 index = EvidenceIndex()
 
 
